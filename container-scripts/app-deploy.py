@@ -37,22 +37,44 @@ appname=configProps.get("app.name")
 appfile=configProps.get("app.file")
 appdir=configProps.get("app.dir")
 
-# Display the variable values.
-print 'adminUsername=', adminUsername
-print 'adminPassword=', adminPassword
-print 'adminURL=', adminURL
-print 'appname=', appname
-print 'appfile=', appfile
-print 'appdir=', appdir
+def deployApp():
+   # Display the variable values.
+   print 'adminUsername=', adminUsername
+   print 'adminPassword=', adminPassword
+   print 'adminURL=', adminURL
+   print 'appname=', appname
+   print 'appfile=', appfile
+   print 'appdir=', appdir
 
-print '###################################################################';
-
-print '#                 Deploying App' + appname + '                    #';
-
-print '###################################################################';
-
-print '';
-
-connect(adminUsername, adminPassword, adminURL)
-deploy(appname, appdir + '/' + appfile)
+   try:   
+      deploy(appname, appdir + '/' + appfile)
    
+   except:
+      print 'Exception while deploying App !';
+
+      dumpStack();
+
+      exit();
+
+# ================================================================                                                                                                                          
+
+#           Main Code Execution                                                                                                                                                            
+
+# ================================================================                                                                                                                         
+
+if __name__== "main":                                                                                                                                                                       
+
+      print '###################################################################';
+
+      print '#                 Deploying App                                   #';
+
+      print '###################################################################';
+
+      print '';
+
+      connect(adminUsername, adminPassword,  adminURL);
+
+      deployApp()
+
+      disconnect();  
+

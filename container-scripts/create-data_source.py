@@ -42,18 +42,72 @@ dsPassword=configProps.get("ds.password")
 dsTargetType=configProps.get("ds.target.type")
 dsTargetName=configProps.get("ds.target.name")
 
+###################################################################
+
+def createDataSource():
 # Display the variable values.
-print 'adminUsername=', adminUsername
-print 'adminPassword=', adminPassword
-print 'adminURL=', adminURL
-print 'dsName=', dsName
-print 'dsJNDIName=', dsJNDIName
-print 'dsURL=', dsURL
-print 'dsDriver=', dsDriver
-print 'dsUsername=', dsUsername
-print 'dsPassword=', dsPassword
-print 'dsTargetType=', dsTargetType
-print 'dsTargetName=', dsTargetName
+   print 'adminUsername=', adminUsername
+   print 'adminPassword=', adminPassword
+   print 'adminURL=', adminURL
+   print 'dsName=', dsName
+   print 'dsJNDIName=', dsJNDIName
+   print 'dsURL=', dsURL
+   print 'dsDriver=', dsDriver
+   print 'dsUsername=', dsUsername
+   print 'dsPassword=', dsPassword
+   print 'dsTargetType=', dsTargetType
+   print 'dsTargetName=', dsTargetName
+
+   try:
+
+      edit()
+      startEdit()
+
+      # Create data source.
+      cd('/')
+      cmo.createJDBCSystemResource(dsName)
+
+      cd('/JDBCSystemResources/' + dsName + '/JDBCResource/' + dsName)
+      cmo.setName(dsName)
+
+      cd('/JDBCSystemResources/' + dsName + '/JDBCResource/' + dsName + '/JDBCDataSourceParams/' + dsName)
+      set('JNDINames',jarray.array([String(dsJNDIName)], String))
+
+      cd('/JDBCSystemResources/' + dsName + '/JDBCResource/' + dsName + '/JDBCDriverParams/' + dsName)
+      cmo.setUrl(dsURL)
+      cmo.setDriverName(dsDriver)
+      set('Password', dsPassword)
+
+      cd('/JDBCSystemResources/' + dsName + '/JDBCResource/' + dsName + '/JDBCConnectionPoolParams/' + dsName)
+      cmo.setTestTableName('SQL SELECT 1 FROM DUAL\r\n\r\n')
+
+      cd('/JDBCSystemResources/' + dsName + '/JDBCResource/' + dsName + '/JDBCDriverParams/' + dsName + '/Properties/' + dsName)
+      cmo.createProperty('user')
+
+      cd('/JDBCSystemResources/' + dsName + '/JDBCResource/' + dsName + '/JDBCDriverParams/' + dsName + '/Properties/' + dsName + '/Properties/user')
+      cmo.setValue(dsUsername)
+
+      cd('/JDBCSystemResources/' + dsName + '/JDBCResource/' + dsName + '/JDBCDataSourceParams/' + dsName)
+      cmo.setGlobalTransactionsProtocol('TwoPhaseCommit')
+
+      cd('/SystemResources/' + dsName)
+      set('Targets',jarray.array([ObjectName('com.bea:Name=' + dsTargetName + ',Type=' + dsTargetType)], ObjectName))
+
+      save()
+      activate()
+
+      disconnect()
+      exit()
+
+   except:
+      print 'Exception while create Data Source!';
+
+      dumpStack();
+
+      exit();      
+
+
+if __name__== "main":                                                                                                                                                                       
 
         print '###################################################################';
 
@@ -63,44 +117,8 @@ print 'dsTargetName=', dsTargetName
 
         print '';
 
-# Connect to the AdminServer.
-connect(adminUsername, adminPassword, adminURL)
+        connect(adminUsername, adminPassword,  adminURL);
 
-edit()
-startEdit()
+        createDataSource()
 
-# Create data source.
-cd('/')
-cmo.createJDBCSystemResource(dsName)
-
-cd('/JDBCSystemResources/' + dsName + '/JDBCResource/' + dsName)
-cmo.setName(dsName)
-
-cd('/JDBCSystemResources/' + dsName + '/JDBCResource/' + dsName + '/JDBCDataSourceParams/' + dsName)
-set('JNDINames',jarray.array([String(dsJNDIName)], String))
-
-cd('/JDBCSystemResources/' + dsName + '/JDBCResource/' + dsName + '/JDBCDriverParams/' + dsName)
-cmo.setUrl(dsURL)
-cmo.setDriverName(dsDriver)
-set('Password', dsPassword)
-
-cd('/JDBCSystemResources/' + dsName + '/JDBCResource/' + dsName + '/JDBCConnectionPoolParams/' + dsName)
-cmo.setTestTableName('SQL SELECT 1 FROM DUAL\r\n\r\n')
-
-cd('/JDBCSystemResources/' + dsName + '/JDBCResource/' + dsName + '/JDBCDriverParams/' + dsName + '/Properties/' + dsName)
-cmo.createProperty('user')
-
-cd('/JDBCSystemResources/' + dsName + '/JDBCResource/' + dsName + '/JDBCDriverParams/' + dsName + '/Properties/' + dsName + '/Properties/user')
-cmo.setValue(dsUsername)
-
-cd('/JDBCSystemResources/' + dsName + '/JDBCResource/' + dsName + '/JDBCDataSourceParams/' + dsName)
-cmo.setGlobalTransactionsProtocol('TwoPhaseCommit')
-
-cd('/SystemResources/' + dsName)
-set('Targets',jarray.array([ObjectName('com.bea:Name=' + dsTargetName + ',Type=' + dsTargetType)], ObjectName))
-
-save()
-activate()
-
-disconnect()
-exit()
+        disconnect();

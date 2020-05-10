@@ -90,7 +90,7 @@ def createMailSession():
 
    except:
 
-      print 'Exception while create EMail session  !';
+      print 'Exception while create EMail session!';
 
       dumpStack();
 
