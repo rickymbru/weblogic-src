@@ -1,0 +1,14 @@
+# AdminServer connection details.
+admin.username=admin
+admin.password=Welcome1
+admin.url=t3://localhost:7001
+
+ds.name=srcDS
+ds.jndi.name=srcDS
+ds.url=jdbc:oracle:thin:@<host>:1521/<instance>
+ds.driver=oracle.jdbc.xa.client.OracleXADataSource
+ds.username=<schema>
+ds.password=<password>
+
+ds.target.type=Server
+ds.target.name=AdminServer
