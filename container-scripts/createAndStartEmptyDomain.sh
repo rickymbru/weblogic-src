@@ -91,6 +91,16 @@ java weblogic.WLST /u01/oracle/create-data_source.py -p /u01/oracle/ds.propertie
 echo Creating Mail Session ...
 java weblogic.WLST /u01/oracle/create-mail-session.py -p /u01/oracle/mail.properties
 
+# Stop Admin Server
+${DOMAIN_HOME}/bin/stopWebLogic.sh
+
+# Deploy App
+echo Deploying App ...
+. /u01/oracle/deployAppToDomain.sh
+
+# Start Admin Server and tail the logs
+nohup ${DOMAIN_HOME}/startWebLogic.sh &
+
 tail -f ${DOMAIN_HOME}/servers/AdminServer/logs/AdminServer.log &
 
 childPID=$!

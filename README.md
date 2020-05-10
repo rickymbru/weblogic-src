@@ -12,7 +12,7 @@ To build, run:
 
 To stop, remove image
 
-        $ ./stop-container.sh
+        $ ./kill-container.sh
 
 
 # Copyright
