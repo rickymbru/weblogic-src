@@ -75,14 +75,21 @@ nohup ${DOMAIN_HOME}/startWebLogic.sh &
 
 echo Waiting 15 seconds to Weblogic Starts...
 sleep 15
-echo Creating Data Source 
-# Create Data Source
+
+# Exporting variables
 export MW_HOME=/u01/oracle       
 export WLS_HOME=$MW_HOME/wlserver
 export WL_HOME=$WLS_HOME         
 export DOMAIN_HOME=/u01/oracle/user_projects/domains/base_domain
 . $DOMAIN_HOME/bin/setDomainEnv.sh
+
+# Create Data Source
+echo Creating Data Source ...
 java weblogic.WLST /u01/oracle/create-data_source.py -p /u01/oracle/ds.properties
+
+# Create Mail Session
+echo Creating Mail Session ...
+java weblogic.WLST /u01/oracle/create-mail-session.py -p /u01/oracle/mail.properties
 
 tail -f ${DOMAIN_HOME}/servers/AdminServer/logs/AdminServer.log &
 
