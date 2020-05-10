@@ -55,6 +55,14 @@ print 'dsPassword=', dsPassword
 print 'dsTargetType=', dsTargetType
 print 'dsTargetName=', dsTargetName
 
+        print '###################################################################';
+
+        print '#                 Create Data Source                              #';
+
+        print '###################################################################';
+
+        print '';
+
 # Connect to the AdminServer.
 connect(adminUsername, adminPassword, adminURL)
 

@@ -29,7 +29,7 @@ MAINTAINER Ricky Bruggemann <ricky@cedae.com.br>
 
 USER root
 COPY container-scripts/* properties/* /u01/oracle/
-RUN chmod +xr /u01/oracle/createAndStartEmptyDomain.sh /u01/oracle/deployAppToDomain.sh
+RUN chmod +xr /u01/oracle/createAndStartEmptyDomain.sh
 
 ENV ORACLE_HOME=/u01/oracle \
     USER_MEM_ARGS="-Djava.security.egd=file:/dev/./urandom" \

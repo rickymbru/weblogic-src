@@ -80,7 +80,6 @@ sleep 15
 export MW_HOME=/u01/oracle       
 export WLS_HOME=$MW_HOME/wlserver
 export WL_HOME=$WLS_HOME         
-export DOMAIN_HOME=/u01/oracle/user_projects/domains/base_domain
 . $DOMAIN_HOME/bin/setDomainEnv.sh
 
 # Create Data Source
@@ -91,15 +90,9 @@ java weblogic.WLST /u01/oracle/create-data_source.py -p /u01/oracle/ds.propertie
 echo Creating Mail Session ...
 java weblogic.WLST /u01/oracle/create-mail-session.py -p /u01/oracle/mail.properties
 
-# Stop Admin Server
-${DOMAIN_HOME}/bin/stopWebLogic.sh
-
 # Deploy App
 echo Deploying App ...
-. /u01/oracle/deployAppToDomain.sh
-
-# Start Admin Server and tail the logs
-nohup ${DOMAIN_HOME}/startWebLogic.sh &
+java weblogic.WLST /u01/oracle/app-deploy.py -p /u01/oracle/app.properties
 
 tail -f ${DOMAIN_HOME}/servers/AdminServer/logs/AdminServer.log &
 

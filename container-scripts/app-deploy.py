@@ -1,48 +1,58 @@
-# Copyright (c) 2019 Oracle and/or its affiliates. All rights reserved.
-#
-#Licensed under the Universal Permissive License v 1.0 as shown at http://oss.oracle.com/licenses/upl.
-#
+#!/usr/bin/python
+# Author : Ricky
+# Save Script as : create-mail-session.py
 
-# WLST Offline for deploying an application under APP_NAME packaged in APP_PKG_FILE located in APP_PKG_LOCATION
-# It will read the domain under DOMAIN_HOME by default
-#
-# author: Monica Riccelli <monica.riccelli@oracle.com>
-#
-import os
+import time
+import getopt
+import sys
+import re
 
-# Deployment Information
-domainhome = os.environ.get('DOMAIN_HOME', '/u01/oracle/user_projects/domains/base_domain')
-admin_name = os.environ.get('ADMIN_NAME', 'AdminServer')
-appname    = os.environ.get('APP_NAME', 'src')
-appfile    = os.environ.get('APP_FILE', 'src-1.1.1.ear')
-appdir     = os.environ.get('APP_DIR', '/var/weblogic-external-data/src/deploy')
+# Get location of the properties file.
+properties = ''
+try:
+   opts, args = getopt.getopt(sys.argv[1:],"p:h::",["properies="])
+except getopt.GetoptError:
+   print 'set_datasource.py -p <path-to-properties-file>'
+   sys.exit(2)
+for opt, arg in opts:
+   if opt == '-h':
+      print 'set_datasource.py -p <path-to-properties-file>'
+      sys.exit()
+   elif opt in ("-p", "--properties"):
+      properties = arg
+print 'properties=', properties
 
-#server_name = os.environ.get("SERVER", "AdminServer")
+# Load the properties from the properties file.
+from java.io import FileInputStream
+ 
+propInputStream = FileInputStream(properties)
+configProps = Properties()
+configProps.load(propInputStream)
 
-print('Domain Home      : [%s]' % domainhome);
-print('Admin Name       : [%s]' % admin_name);
-#print('Server           : [%s]' % server_name);
-print('Application Name : [%s]' % appname);
-print('appfile          : [%s]' % appfile);
-print('appdir           : [%s]' % appdir);
-# Read Domain in Offline Mode
-# ===========================
-readDomain(domainhome)
+# Set all variables from values in properties file.
+adminUsername=configProps.get("admin.username")
+adminPassword=configProps.get("admin.password")
+adminURL=configProps.get("admin.url")
+appname=configProps.get("app.name")
+appfile=configProps.get("app.file")
+appdir=configProps.get("app.dir")
 
-# Create Application
-# ==================
-cd('/')
-app = create(appname, 'AppDeployment')
-app.setSourcePath(appdir + '/' + appfile)
-app.setStagingMode('nostage')
+# Display the variable values.
+print 'adminUsername=', adminUsername
+print 'adminPassword=', adminPassword
+print 'adminURL=', adminURL
+print 'appname=', appname
+print 'appfile=', appfile
+print 'appdir=', appdir
 
-# Assign application to AdminServer
-# =================================
-assign('AppDeployment', appname, 'Target', admin_name)
-#assign('AppDeployment', appname, 'Target', cluster_name)
+print '###################################################################';
 
-# Update Domain, Close It, Exit
-# ==========================
-updateDomain()
-closeDomain()
-exit()
+print '#                 Deploying App' + appname + '                    #';
+
+print '###################################################################';
+
+print '';
+
+connect(adminUsername, adminPassword, adminURL)
+deploy(appname, appdir + '/' + appfile)
+   
