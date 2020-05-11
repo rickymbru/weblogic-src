@@ -42,6 +42,7 @@ mailhost=configProps.get("mail.smtp.host")
 mailport=configProps.get("mail.smtp.port")
 mailTargetType=configProps.get("mail.target.type")
 mailTargetName=configProps.get("mail.target.name")
+mailTargetAdmin=configProps.get("mail.target.admin")
 
 from java.util import Properties
 
@@ -66,7 +67,14 @@ def createMailSession():
 
       cd('/MailSessions/' + mailName);
 
-      set('Targets',jarray.array([ObjectName('com.bea:Name=' + mailTargetName + ',Type=' + mailTargetType)], ObjectName))
+      #set('Targets',jarray.array([ObjectName('com.bea:Name=' + mailTargetName + ',Type=' + mailTargetType)], ObjectName))
+      jdbcDS1=cmo
+      cd("/Servers/" + mailTargetName)
+      target=cmo  
+      jdbcDS1.addTarget(target)
+      cd("/Servers/" + mailTargetAdmin)
+      target=cmo  
+      jdbcDS1.addTarget(target)
 
       myTestMailMbean.setJNDIName(mailJNDIName); 
 

@@ -36,6 +36,8 @@ adminURL=configProps.get("admin.url")
 appname=configProps.get("app.name")
 appfile=configProps.get("app.file")
 appdir=configProps.get("app.dir")
+apptargetname=configProps.get("app.target.name")
+apptargetadmin=configProps.get("app.target.admin")
 
 def deployApp():
    # Display the variable values.
@@ -45,9 +47,12 @@ def deployApp():
    print 'appname=', appname
    print 'appfile=', appfile
    print 'appdir=', appdir
+   print 'apptargetname=', apptargetname
+   print 'apptargetadmin=', apptargetadmin
 
    try:   
-      deploy(appname, appdir + '/' + appfile)
+      deploy(appname, appdir + '/' + appfile, targets=apptargetname)
+      deploy(appname, appdir + '/' + appfile, targets=apptargetadmin)
    
    except:
       print 'Exception while deploying App !';

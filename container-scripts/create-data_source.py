@@ -41,6 +41,7 @@ dsUsername=configProps.get("ds.username")
 dsPassword=configProps.get("ds.password")
 dsTargetType=configProps.get("ds.target.type")
 dsTargetName=configProps.get("ds.target.name")
+dsTargetAdmin=configProps.get("ds.target.admin")
 
 ###################################################################
 
@@ -57,6 +58,7 @@ def createDataSource():
    print 'dsPassword=', dsPassword
    print 'dsTargetType=', dsTargetType
    print 'dsTargetName=', dsTargetName
+   print 'dsTargetAdmin=', dsTargetAdmin
 
    try:
 
@@ -91,7 +93,14 @@ def createDataSource():
       cmo.setGlobalTransactionsProtocol('TwoPhaseCommit')
 
       cd('/SystemResources/' + dsName)
-      set('Targets',jarray.array([ObjectName('com.bea:Name=' + dsTargetName + ',Type=' + dsTargetType)], ObjectName))
+      #set('Targets',jarray.array([ObjectName('com.bea:Name=' + dsTargetName + ',Type=' + dsTargetType)], ObjectName))
+      jdbcDS1=cmo
+      cd("/Servers/" + dsTargetName)
+      target=cmo  
+      jdbcDS1.addTarget(target)
+      cd("/Servers/" + dsTargetAdmin)
+      target=cmo  
+      jdbcDS1.addTarget(target)
 
       save()
       activate()
