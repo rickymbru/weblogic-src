@@ -3,3 +3,5 @@ properties/ds.properties
 weblogic-external/*
 !weblogic-external/src
 .history/
+ds-homolog.properties
+ds-prod.properties

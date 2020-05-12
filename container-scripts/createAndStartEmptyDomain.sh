@@ -66,8 +66,9 @@ if [ $ADD_DOMAIN -eq 0 ]; then
    ${DOMAIN_HOME}/bin/setDomainEnv.sh
 fi
 
-# Rewrite setStartupEnv
+# Rewrite setStartupEnv and startManagedWebLogic.sh
 cat /u01/oracle/setStartupEnv.sh >$DOMAIN_HOME/bin/setStartupEnv.sh
+cat /u01/oracle/startManagedWebLogic.sh >$DOMAIN_HOME/bin/startManagedWebLogic.sh
 
 # Start Admin Server and tail the logs
 nohup ${DOMAIN_HOME}/startWebLogic.sh &
