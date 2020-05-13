@@ -11,4 +11,5 @@ ds.username=<schema>
 ds.password=<password>
 
 ds.target.type=Server
-ds.target.name=AdminServer
+ds.target.name=APP01
+ds.target.admin=AdminServer

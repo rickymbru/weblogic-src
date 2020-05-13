@@ -66,14 +66,17 @@ if [ $ADD_DOMAIN -eq 0 ]; then
    ${DOMAIN_HOME}/bin/setDomainEnv.sh
 fi
 
-# Rewrite setStartupEnv
+# Rewrite setStartupEnv and startManagedWebLogic.sh
 cat /u01/oracle/setStartupEnv.sh >$DOMAIN_HOME/bin/setStartupEnv.sh
+cat /u01/oracle/startManagedWebLogic.sh >$DOMAIN_HOME/bin/startManagedWebLogic.sh
 
 # Start Admin Server and tail the logs
 nohup ${DOMAIN_HOME}/startWebLogic.sh &
 #touch ${DOMAIN_HOME}/servers/AdminServer/logs/AdminServer.log
 
-echo Waiting 15 seconds to Weblogic Starts...
+echo '####################################################################################'
+echo Waiting 10 seconds to Weblogic Starts...
+echo '####################################################################################'
 sleep 15
 
 # Exporting variables
@@ -81,6 +84,19 @@ export MW_HOME=/u01/oracle
 export WLS_HOME=$MW_HOME/wlserver
 export WL_HOME=$WLS_HOME         
 . $DOMAIN_HOME/bin/setDomainEnv.sh
+
+#Create Managed Server
+echo Creating Managed Server $SERVER_NAME1 ...
+java weblogic.WLST /u01/oracle/create-managed-server.py -p /u01/oracle/server.properties
+
+# Start Managed Server
+mkdir -p servers/APP01/security                       
+cp /u01/oracle/boot.properties servers/APP01/security/
+nohup startManagedWebLogic.sh $SERVER_NAME1 &
+echo '####################################################################################'
+echo Waiting 15 seconds to Managed Server $SERVER_NAME1 start...
+echo '####################################################################################'
+sleep 15
 
 # Create Data Source
 echo Creating Data Source ...
