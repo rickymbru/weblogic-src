@@ -60,7 +60,7 @@ def CreateManagedServer():
       cd('/')
       cmo.createServer(msName)
       cd('/Servers/' + msName)
-      cmo.setListenAddress(msAddress)
+      #cmo.setListenAddress(msAddress)
       cmo.setListenPort(int(msPort))
       cmo.getWebServer().setMaxRequestParamterCount(25000)
 

@@ -11,7 +11,7 @@ usage()
 	echo "them in command line:"
 	echo "Usage: $1 SERVER_NAME {ADMIN_URL}"
 	echo "for example:"
-	echo "$1 managedserver1 http://6c111be7f714:7001"
+	echo "$1 managedserver1 http://localhost:7001"
 }
 
 # --- End Functions ---
@@ -29,9 +29,9 @@ usage()
 
 #  Set SERVER_NAME to the name of the server you wish to start up.
 
-DOMAIN_NAME="base_domain"
+#DOMAIN_NAME="base_domain"
 
-ADMIN_URL="http://6c111be7f714:7001"
+ADMIN_URL="http://localhost:7001"
 
 #  Set WLS_USER equal to your system username and WLS_PW equal  
 
@@ -89,7 +89,7 @@ export ADMIN_URL
 SERVER_NAME="${SERVER_NAME}"
 export SERVER_NAME
 
-DOMAIN_HOME="/u01/oracle/user_projects/domains/base_domain"
+DOMAIN_HOME=/u01/oracle/user_projects/domains/$DOMAIN_NAME
 
 # Managed Server Start Arguments
 USER_MEM_ARGS="${USER_MEM_ARGS} -Xms2048M -Xmx2048M"

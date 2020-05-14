@@ -1,6 +1,6 @@
 #!/bin/sh
 ./build.sh
-docker run --rm -d -p 7001:7001 -p 9002:9002 \
+docker run --rm -d -p 7001:7001 -p 7003:7003 -p 9002:9002 \
 -e ADMINISTRATION_PORT_ENABLED=false \
 -e DOMAIN_NAME=base_domain \
 -e SERVER_NAME1=APP01 \
