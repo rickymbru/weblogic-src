@@ -29,7 +29,7 @@ usage()
 
 #  Set SERVER_NAME to the name of the server you wish to start up.
 
-DOMAIN_NAME="base_domain"
+#DOMAIN_NAME="base_domain"
 
 ADMIN_URL="http://localhost:7001"
 
@@ -89,7 +89,7 @@ export ADMIN_URL
 SERVER_NAME="${SERVER_NAME}"
 export SERVER_NAME
 
-DOMAIN_HOME="/u01/oracle/user_projects/domains/base_domain"
+DOMAIN_HOME=/u01/oracle/user_projects/domains/$DOMAIN_NAME
 
 # Managed Server Start Arguments
 USER_MEM_ARGS="${USER_MEM_ARGS} -Xms2048M -Xmx2048M"

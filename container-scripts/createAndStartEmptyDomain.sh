@@ -70,6 +70,10 @@ fi
 cat /u01/oracle/setStartupEnv.sh >$DOMAIN_HOME/bin/setStartupEnv.sh
 cat /u01/oracle/startManagedWebLogic.sh >$DOMAIN_HOME/bin/startManagedWebLogic.sh
 
+# Start NodeManager
+echo Starting NodeManager...
+nohup ${DOMAIN_HOME}/bin/startNodeManager.sh &
+
 # Start Admin Server and tail the logs
 nohup ${DOMAIN_HOME}/startWebLogic.sh &
 #touch ${DOMAIN_HOME}/servers/AdminServer/logs/AdminServer.log
@@ -85,6 +89,10 @@ export WLS_HOME=$MW_HOME/wlserver
 export WL_HOME=$WLS_HOME         
 . $DOMAIN_HOME/bin/setDomainEnv.sh
 
+#Create Machine
+echo Creating Machine ...
+java weblogic.WLST /u01/oracle/create-machine.py -p /u01/oracle/machine.properties
+
 #Create Managed Server
 echo Creating Managed Server $SERVER_NAME1 ...
 java weblogic.WLST /u01/oracle/create-managed-server.py -p /u01/oracle/server.properties
@@ -92,7 +100,7 @@ java weblogic.WLST /u01/oracle/create-managed-server.py -p /u01/oracle/server.pr
 # Start Managed Server
 mkdir -p servers/APP01/security                       
 cp /u01/oracle/boot.properties servers/APP01/security/
-nohup startManagedWebLogic.sh $SERVER_NAME1 &
+nohup ${DOMAIN_HOME}/bin/startManagedWebLogic.sh $SERVER_NAME1 &
 echo '####################################################################################'
 echo Waiting 15 seconds to Managed Server $SERVER_NAME1 start...
 echo '####################################################################################'
