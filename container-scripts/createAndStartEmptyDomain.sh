@@ -63,7 +63,7 @@ if [ $ADD_DOMAIN -eq 0 ]; then
    mkdir -p ${DOMAIN_HOME}/servers/AdminServer/security/
    echo "username=${USER}" >> $DOMAIN_HOME/servers/AdminServer/security/boot.properties
    echo "password=${PASS}" >> $DOMAIN_HOME/servers/AdminServer/security/boot.properties
-   ${DOMAIN_HOME}/bin/setDomainEnv.sh
+   . ${DOMAIN_HOME}/bin/setDomainEnv.sh
 fi
 
 # Rewrite setStartupEnv and startManagedWebLogic.sh
@@ -108,15 +108,19 @@ sleep 15
 
 # Create Data Source
 echo Creating Data Source ...
-java weblogic.WLST /u01/oracle/create-data_source.py -p /u01/oracle/ds.properties
+java weblogic.WLST /u01/oracle/create-data_source.py -p /u01/oracle/srcds.properties
+java weblogic.WLST /u01/oracle/create-data_source.py -p /u01/oracle/metrusds.properties
 
 # Create Mail Session
 echo Creating Mail Session ...
 java weblogic.WLST /u01/oracle/create-mail-session.py -p /u01/oracle/mail.properties
 
 # Deploy App
-echo Deploying App ...
-java weblogic.WLST /u01/oracle/app-deploy.py -p /u01/oracle/app.properties
+echo Deploying App SRC...
+java weblogic.WLST /u01/oracle/app-deploy.py -p /u01/oracle/srcapp.properties
+
+echo Deploying App Metrus...
+java weblogic.WLST /u01/oracle/app-deploy.py -p /u01/oracle/metrusapp.properties
 
 tail -f ${DOMAIN_HOME}/servers/AdminServer/logs/AdminServer.log &
 
