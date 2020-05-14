@@ -11,7 +11,7 @@ usage()
 	echo "them in command line:"
 	echo "Usage: $1 SERVER_NAME {ADMIN_URL}"
 	echo "for example:"
-	echo "$1 managedserver1 http://6c111be7f714:7001"
+	echo "$1 managedserver1 http://localhost:7001"
 }
 
 # --- End Functions ---
@@ -31,7 +31,7 @@ usage()
 
 DOMAIN_NAME="base_domain"
 
-ADMIN_URL="http://6c111be7f714:7001"
+ADMIN_URL="http://localhost:7001"
 
 #  Set WLS_USER equal to your system username and WLS_PW equal  
 
