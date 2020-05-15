@@ -2,6 +2,12 @@
 properties/ds.properties
 weblogic-external/*
 !weblogic-external/src
+!weblogic-external/metrus
 .history/
 ds-homolog.properties
 ds-prod.properties
+srcds.properties
+metrusds.properties
+weblogic-external-data/src/logs
+weblogic-external-data/metrus/logs
+weblogic-external/metrus/config.properties

@@ -1,0 +1,10 @@
+.
+./apps
+./apps/mobile_leitura_produção
+./contingencia-entrada
+./contingencia-saida
+./deploy
+./deploy/versoes
+./fotos
+./fotos-upload
+./logs
