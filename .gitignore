@@ -11,3 +11,4 @@ properties/metrusds.properties
 weblogic-external-data/src/logs
 weblogic-external-data/metrus/logs
 weblogic-external/metrus/config.properties
+dmp/

@@ -1,0 +1,37 @@
+version: '3'
+services:
+    weblogic:
+        build: . 
+        ports:
+            - 7001:7001
+            - 7003:7003
+            - 9002:9002
+        environment:
+            - ADMINISTRATION_PORT_ENABLED=false
+            - DOMAIN_NAME=base_domain
+            - SERVER_NAME1=APP01
+        volumes:
+            - /home/docker/weblogic-src/properties/:/u01/oracle/properties
+            - /home/docker/weblogic-src/weblogic-external:/var/weblogic-external
+            - /home/docker/weblogic-src/weblogic-external-data:/var/weblogic-external-data
+        network_mode: bridge
+        depends_on:
+            - oradb
+    oradb:
+        build:
+            context: ./
+            dockerfile: Dockerfile-oradb
+        environment:
+            - ORACLE_SID=ORCLCDB
+            - ORACLE_PDB=ORCLPDB
+            - ORACLE_PWD=oracle
+            - ORACLE_CHARACTERSET=we8mswin1252        
+        ports:
+            - 1521:1521
+            - 5500:5500
+        volumes:
+            - /home/docker/weblogic-src/dmp/:/dmp
+        network_mode: bridge
+
+
+

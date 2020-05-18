@@ -1,0 +1,9 @@
+FROM oracle/database:12.1.0.2-ee
+
+USER root
+COPY ./container-scripts/runUserScripts.sh ./container-scripts/create-src.sql $ORACLE_BASE/scripts/startup/
+RUN chmod +x $ORACLE_BASE/scripts/startup/runUserScripts.sh
+
+USER oracle
+# Define default command to start Oracle Database. 
+CMD exec $ORACLE_BASE/$RUN_FILE
