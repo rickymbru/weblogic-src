@@ -1,7 +1,9 @@
 version: '3'
 services:
     weblogic:
-        build: . 
+        build:
+            context: ./
+            dockerfile: Dockerfile
         ports:
             - 7001:7001
             - 7003:7003
@@ -14,9 +16,11 @@ services:
             - /home/docker/weblogic-src/properties/:/u01/oracle/properties
             - /home/docker/weblogic-src/weblogic-external:/var/weblogic-external
             - /home/docker/weblogic-src/weblogic-external-data:/var/weblogic-external-data
-        network_mode: bridge
+        entrypoint: ["/u01/oracle/wait-for-it.sh","oradb:5500","--timeout=0","--strict", "--", "/u01/oracle/createAndStartEmptyDomain.sh" ]
         depends_on:
             - oradb
+        networks:
+            - mynet            
     oradb:
         build:
             context: ./
@@ -31,7 +35,14 @@ services:
             - 5500:5500
         volumes:
             - /home/docker/weblogic-src/dmp/:/dmp
-        network_mode: bridge
+        networks:
+            - mynet
+networks:
+    mynet:
+        ipam:
+            driver: default
+            config:
+                - subnet: 172.21.238.0/24
 
 
 

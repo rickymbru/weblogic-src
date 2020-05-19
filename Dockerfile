@@ -44,11 +44,14 @@ ENV DOMAIN_NAME="${DOMAIN_NAME:-base_domain}" \
     SERVER_NAME1="${SERVER_NAME1:-APP01}" \
     ADMINISTRATION_PORT_ENABLED="${ADMINISTRATION_PORT_ENABLED:-false}" \
     ADMINISTRATION_PORT="${ADMINISTRATION_PORT:-9002}"
-    
+
+#Install nc
+RUN yum install -y nc    
 
 USER oracle
 
 WORKDIR ${ORACLE_HOME}
 
 # Define default command to start script.
-CMD ["/u01/oracle/createAndStartEmptyDomain.sh"]
+#CMD ["/u01/oracle/createAndStartEmptyDomain.sh"]
+
